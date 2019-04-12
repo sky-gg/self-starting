@@ -4,15 +4,15 @@ let cp = require('child_process')
 let fs = require('fs');
 const scheduleCronstyle = () => {
   //每天的十一点五十执行一次:
-  schedule.scheduleJob('45 54 13 * * *', () => {/** 秒 分 时 */
-    initApp();
+  schedule.scheduleJob('00 50 11 * * *', () => {/** 秒 分 时 */
+    initApp("该去吃饭了");
   });
 }
 scheduleCronstyle();
 
-function initApp() {
+function initApp(sweetTip) {
   let vbsPath = path.join(__dirname, 'msgbox.vbs')
-  cp.exec('cscript.exe ' + vbsPath + ' "温馨提示" "该去吃饭了"', function(err, stdout, stderr) {
+  cp.exec('cscript.exe ' + vbsPath + ' "温馨提示" ' + sweetTip, function(err, stdout, stderr) {
     if (err) {
       fs.writeFileSync('error.log', err.toString())
     }
