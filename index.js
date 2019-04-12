@@ -1,5 +1,4 @@
 let schedule = require('node-schedule');
-let path = require('path');
 let cp = require('child_process')
 let fs = require('fs');
 const scheduleCronstyle = () => {
@@ -7,12 +6,15 @@ const scheduleCronstyle = () => {
   schedule.scheduleJob('00 50 11 * * *', () => {/** 秒 分 时 */
     initApp("该去吃饭了");
   });
+  //每天的六点执行一次:
+  schedule.scheduleJob('00 00 18 * * *', () => {/** 秒 分 时 */
+    initApp("发周报");
+  });
 }
 scheduleCronstyle();
 
 function initApp(sweetTip) {
-  let vbsPath = path.join(__dirname, 'msgbox.vbs')
-  cp.exec('cscript.exe ' + vbsPath + ' "温馨提示" ' + sweetTip, function(err, stdout, stderr) {
+  cp.exec('msg %username% ' + sweetTip,(err)=>{
     if (err) {
       fs.writeFileSync('error.log', err.toString())
     }
